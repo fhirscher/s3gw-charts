@@ -63,6 +63,15 @@ spec:
           secret:
             secretName: s3gw-cluster-ip-tls
             optional: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
 {{- if .Values.ui.enabled }}
 ---
 apiVersion: apps/v1
@@ -98,4 +107,13 @@ spec:
                 name: s3gw-config
             - secretRef:
                 name: {{ .Values.defaultUserCredentialsSecret }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
 {{- end }}
